@@ -17,11 +17,12 @@ values = {
 
 player_score = 0
 player_turn = 0
+player_status = "none"
 
 
 bot_score = 0
 bot_turn = 0
-
+bot_status = "none"
 
 
 #----------------------------------------------------------   
@@ -33,8 +34,10 @@ bot_turn = 0
 
 def player_move():
     
+    global bot_status
     global player_score
-    global player_turn
+    global player_turn  
+    global bot_score
     
 
 #----------------------------------------------------------   
@@ -51,6 +54,25 @@ def player_move():
         if status.lower() == "hit":
             pass
         else:
+            
+            
+            if bot_status == "stay":
+                
+                print("\nBoth the bot and you selected stay, so the game is over.")
+                
+                
+                if bot_score > player_score:
+                    
+                    print("\n The bot had a higher score, so it wins")
+                    
+                elif bot_score < player_score:
+                    
+                    print("\n You had a higher score than the bot, so you win")
+                    
+                else:
+                    print("\nBoth you and the bot had the same score. It is a tie.")
+                return
+            
             bot_move()
         
         
@@ -192,8 +214,10 @@ def bot_move():
     if bot_turn > 0:
         if bot_score >= 17:
             print("\nThe Bot decided to Stay!")
+            bot_status = "stay"
             player_move()
         else:
+            bot_status = "hit"
             pass
         
         
@@ -269,11 +293,13 @@ def bot_move():
         
         print(f"\nThe bot got {rank1} and {rank2}! It's score is {bot_score} which exceeds 21.\n You won!")
         return
+        print("hhahqyusfbqwuebfjhwefwafwefwefwefwef")
     
     elif player_score == 21:
         
         print(f"\nThe bot got {rank1} and {rank2}! The bot's score is {bot_score},\n therefore you lost.")
         return
+        print("hhahqyusfbqwuebfjhwefwafwefwefwefwef")
     
     else:
 
