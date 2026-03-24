@@ -14,6 +14,7 @@ values = {
 
 
 
+
 player_score = 0
 player_turn = 0
 
@@ -23,8 +24,11 @@ bot_turn = 0
 
 
 
-
-
+#----------------------------------------------------------   
+# 
+#                      PLAYER MOVE
+# 
+#---------------------------------------------------------- 
 
 
 def player_move():
@@ -32,6 +36,11 @@ def player_move():
     global player_score
     global player_turn
     
+
+#----------------------------------------------------------   
+#                   HIT/STAY LOGIC
+#---------------------------------------------------------- 
+
     
     if player_turn > 0:
         status = input("\nWould you like to Hit or Stay: ")
@@ -134,6 +143,10 @@ def player_move():
         return
     
     else:
+
+        #----------------------------------------------------------   
+        #                       LOOPING
+        #---------------------------------------------------------- 
         
         print(f"\nYou got {rank1} and {rank2}! Your score is {player_score}.")
         
@@ -171,7 +184,10 @@ def bot_move():
     
     global bot_score
     global bot_turn
-    
+
+#----------------------------------------------------------   
+#                  HIT/STAY LOGIC
+#---------------------------------------------------------- 
     
     if bot_turn > 0:
         if bot_score >= 17:
@@ -191,7 +207,7 @@ def bot_move():
     value1 = values[rank1]
 
 #----------------------------------------------------------   
-#        TIME DELAY EFFECT (idk why i did this lol)
+#                 TIME DELAY EFFECT
 #---------------------------------------------------------- 
 
     print("\nBOT Rolling...")
@@ -260,6 +276,10 @@ def bot_move():
         return
     
     else:
+
+        #----------------------------------------------------------   
+        #                   LOOPING LOGIC
+        #---------------------------------------------------------- 
         
         print(f"\nThe bot got {rank1} and {rank2}! It's score is {bot_score}.")
         
@@ -274,11 +294,11 @@ def bot_move():
         
 
 
-
-
-
-
-
+#----------------------------------------------------------   
+# 
+#                   INIT FUNCTIONS
+# 
+#---------------------------------------------------------- 
 
         
 player_move()
