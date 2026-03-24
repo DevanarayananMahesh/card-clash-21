@@ -1,4 +1,5 @@
 import random
+import time
 
 #----------------------------------------------------------   
 #                   GLOBAL CONFIG
@@ -13,8 +14,38 @@ values = {
 
 
 
+player_score = 0
+player_turn = 0
+
+
+bot_score = 0
+bot_turn = 0
+
+
+
+
+
+
+
 def player_move():
-   
+    
+    global player_score
+    global player_turn
+    
+    
+    if player_turn > 0:
+        status = input("\nWould you like to Hit or Stay: ")
+        
+        while status.lower() != "hit" and status.lower() != "stay":
+            status = input("\nPlease type Hit or Stay: ")
+        
+        if status.lower() == "hit":
+            pass
+        else:
+            bot_move()
+        
+        
+    
 #----------------------------------------------------------   
 #                   RANDOM CARD CHOICE
 #---------------------------------------------------------- 
@@ -23,15 +54,24 @@ def player_move():
     value1 = values[rank1]
 
 #----------------------------------------------------------   
+#        TIME DELAY EFFECT (idk why i did this lol)
+#---------------------------------------------------------- 
+
+    print("\nRolling...")
+    time.sleep(1.2)
+    
+
+
+#----------------------------------------------------------   
 #                DECIDING ACE VALUES
 #---------------------------------------------------------- 
 
     if value1 == 11:
-        value_decide = input("You got an ace, would you like it to be an 11 or 1: ")
+        value_decide = input("\nYou got an ace, would you like it to be an 11 or 1: ")
         
         while int(value_decide) != 11 and int(value_decide) != 1:
 
-            value_decide = input("Please type 1 or 11: ")
+            value_decide = input("\nPlease type 1 or 11: ")
             
         if int(value_decide) == 11:
             
@@ -49,16 +89,25 @@ def player_move():
     rank2 = random.choice(ranks)
     value2 = values[rank2]
     
+    
+#----------------------------------------------------------   
+#                   TIME DELAY EFFECT
+#---------------------------------------------------------- 
+
+    print("\nRolling...")
+    time.sleep(1.2)
+    
+    
 #----------------------------------------------------------   
 #                DECIDING ACE VALUES
 #---------------------------------------------------------- 
 
     if value2 == 11:
-        value_decide2 = input("You got an ace, would you like it to be an 11 or 1: ")
+        value_decide2 = input("\nYou got an ace, would you like it to be an 11 or 1: ")
         
         while int(value_decide2) != 11 and int(value_decide2) != 1:
             
-            value_decide2 = input("Please type 1 or 11: ")
+            value_decide2 = input("\nPlease type 1 or 11: ")
             
         if int(value_decide2) == 11:
             
@@ -68,36 +117,168 @@ def player_move():
             value2 = 1
     
 
-    total_value = value1+value2
+    player_score = value1+value2 + player_score
 
 #----------------------------------------------------------   
 #                EXPRESSING VALUES
 #---------------------------------------------------------- 
     
-    if total_value > 21:
+    if player_score > 21:
         
-        print(f"You got {rank1} and {rank2}! Your score is {total_value} which exceeds 21. You lost.")
+        print(f"\nYou got {rank1} and {rank2}! Your score is {player_score} which exceeds 21.\n You lost.")
         return
     
-    elif total_value == 21:
+    elif player_score == 21:
         
-        print(f"You got {rank1} and {rank2}! Your score is {total_value}, therefore you won!")
+        print(f"\nYou got {rank1} and {rank2}! Your score is {player_score},\n therefore you won!")
         return
     
     else:
         
-        print(f"You got {rank1} and {rank2}! Your score is {total_value}.")
-        status = input("Would you like to Hit or Stay: ")
+        print(f"\nYou got {rank1} and {rank2}! Your score is {player_score}.")
         
-        while status.lower() != "hit" and status.lower() != "stay":
-            status = input("Please type Hit or Stay: ")
-        
-        if status.lower() == "hit":
+        if player_turn == 0:
+            
+            player_turn = player_turn + 1
+            
             player_move()
-            # recall function
         else:
-            # Changey
-            print("Finished Turn")
+            bot_move()
         
+        
+
+
+
+
+
+
+#----------------------------------------------------------  
+# 
+#                   BOT FUNCTION
+# 
+#---------------------------------------------------------- 
+
+
+
+
+
+
+
+
+
+
+def bot_move():
+    
+    global bot_score
+    global bot_turn
+    
+    
+    if bot_turn > 0:
+        if bot_score >= 17:
+            print("\nThe Bot decided to Stay!")
+            player_move()
+        else:
+            pass
+        
+        
+        
+    
+#----------------------------------------------------------   
+#                   RANDOM CARD CHOICE
+#---------------------------------------------------------- 
+
+    rank1 = random.choice(ranks)
+    value1 = values[rank1]
+
+#----------------------------------------------------------   
+#        TIME DELAY EFFECT (idk why i did this lol)
+#---------------------------------------------------------- 
+
+    print("\nBOT Rolling...")
+    time.sleep(1.2)
+    
+
+
+#----------------------------------------------------------   
+#                DECIDING ACE VALUES
+#---------------------------------------------------------- 
+
+    if value1 == 11:
+        
+        if bot_score+11 > 21:
+            value1 = 1
+            
+        else:
+            value1 = 11
+            
+            
+            
+#----------------------------------------------------------   
+#               SECOND RANDOM CARD CHOICE
+#---------------------------------------------------------- 
+
+
+    rank2 = random.choice(ranks)
+    value2 = values[rank2]
+    
+    
+#----------------------------------------------------------   
+#                   TIME DELAY EFFECT
+#---------------------------------------------------------- 
+
+    print("\nBOT Rolling...")
+    time.sleep(1.2)
+    
+    
+#----------------------------------------------------------   
+#                DECIDING ACE VALUES
+#---------------------------------------------------------- 
+
+    if value2 == 11:
+        
+        if bot_score+11 > 21:
+            value2 = 1
+            
+        else:
+            value2 = 11
+    
+
+    bot_score = value1+value2 + bot_score
+
+#----------------------------------------------------------   
+#                EXPRESSING VALUES
+#---------------------------------------------------------- 
+    
+    if bot_score > 21:
+        
+        print(f"\nThe bot got {rank1} and {rank2}! It's score is {bot_score} which exceeds 21.\n You won!")
+        return
+    
+    elif player_score == 21:
+        
+        print(f"\nThe bot got {rank1} and {rank2}! The bot's score is {bot_score},\n therefore you lost.")
+        return
+    
+    else:
+        
+        print(f"\nThe bot got {rank1} and {rank2}! It's score is {bot_score}.")
+        
+        if bot_turn == 0:
+            
+            bot_turn = bot_turn + 1
+            
+            bot_move()
+        else:
+            player_move()
+        
+        
+
+
+
+
+
+
+
+
         
 player_move()
