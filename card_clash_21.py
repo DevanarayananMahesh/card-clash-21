@@ -46,6 +46,8 @@ def player_move():
 
     
     if player_turn > 0:
+        
+        # print(bot_status)
         status = input("\nWould you like to Hit or Stay: ")
         
         while status.lower() != "hit" and status.lower() != "stay":
@@ -64,16 +66,20 @@ def player_move():
                 if bot_score > player_score:
                     
                     print("\n The bot had a higher score, so it wins")
+                    return 
                     
                 elif bot_score < player_score:
                     
                     print("\n You had a higher score than the bot, so you win")
+                    return
                     
                 else:
                     print("\nBoth you and the bot had the same score. It is a tie.")
-                return
+                    return
+                
             
-            bot_move()
+            else:
+                bot_move()
         
         
     
@@ -89,16 +95,28 @@ def player_move():
 #---------------------------------------------------------- 
 
     print("\nRolling...")
-    time.sleep(1.2)
+    time.sleep(2)
     
 
+      
+#----------------------------------------------------------   
+#               SECOND RANDOM CARD CHOICE
+#---------------------------------------------------------- 
+
+
+    rank2 = random.choice(ranks)
+    value2 = values[rank2]
+    
 
 #----------------------------------------------------------   
 #                DECIDING ACE VALUES
 #---------------------------------------------------------- 
 
+
+
     if value1 == 11:
-        value_decide = input("\nYou got an ace, would you like it to be an 11 or 1: ")
+        
+        value_decide = input(f"\nYou got an ace, your next card will be {rank2}. Would you like it to be an 11 or 1: ")
         
         while int(value_decide) != 11 and int(value_decide) != 1:
 
@@ -111,30 +129,13 @@ def player_move():
         else:
             value1 = 1
             
-            
-#----------------------------------------------------------   
-#               SECOND RANDOM CARD CHOICE
-#---------------------------------------------------------- 
-
-
-    rank2 = random.choice(ranks)
-    value2 = values[rank2]
-    
-    
-#----------------------------------------------------------   
-#                   TIME DELAY EFFECT
-#---------------------------------------------------------- 
-
-    print("\nRolling...")
-    time.sleep(1.2)
-    
-    
-#----------------------------------------------------------   
-#                DECIDING ACE VALUES
-#---------------------------------------------------------- 
+          
+          
+          
+          
 
     if value2 == 11:
-        value_decide2 = input("\nYou got an ace, would you like it to be an 11 or 1: ")
+        value_decide2 = input(f"\nYou got an ace, your first card is {rank1}. Would you like it to be an 11 or 1: ")
         
         while int(value_decide2) != 11 and int(value_decide2) != 1:
             
@@ -150,9 +151,11 @@ def player_move():
 
     player_score = value1+value2 + player_score
 
+
 #----------------------------------------------------------   
 #                EXPRESSING VALUES
 #---------------------------------------------------------- 
+    
     
     if player_score > 21:
         
@@ -206,12 +209,13 @@ def bot_move():
     
     global bot_score
     global bot_turn
+    global bot_status
 
 #----------------------------------------------------------   
 #                  HIT/STAY LOGIC
 #---------------------------------------------------------- 
     
-    if bot_turn > 0:
+    if bot_turn > 0 and bot_score < 21:
         if bot_score >= 17:
             print("\nThe Bot decided to Stay!")
             bot_status = "stay"
@@ -293,13 +297,11 @@ def bot_move():
         
         print(f"\nThe bot got {rank1} and {rank2}! It's score is {bot_score} which exceeds 21.\n You won!")
         return
-        print("hhahqyusfbqwuebfjhwefwafwefwefwefwef")
     
-    elif player_score == 21:
+    elif bot_score == 21:
         
         print(f"\nThe bot got {rank1} and {rank2}! The bot's score is {bot_score},\n therefore you lost.")
         return
-        print("hhahqyusfbqwuebfjhwefwafwefwefwefwef")
     
     else:
 
@@ -315,6 +317,7 @@ def bot_move():
             
             bot_move()
         else:
+            print("hnnshwhd")
             player_move()
         
         
@@ -326,5 +329,4 @@ def bot_move():
 # 
 #---------------------------------------------------------- 
 
-        
 player_move()
