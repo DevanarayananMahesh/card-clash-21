@@ -13,16 +13,15 @@ values = {
 }
 
 
-
-
 player_score = 0
 player_turn = 0
 player_status = "none"
 
-
 bot_score = 0
 bot_turn = 0
 bot_status = "none"
+
+game_over = False  # <--THis is proof of how annoying errors are
 
 
 #----------------------------------------------------------   
@@ -38,7 +37,10 @@ def player_move():
     global player_score
     global player_turn  
     global bot_score
-    
+    global game_over
+
+    if game_over:
+        return
 
 #----------------------------------------------------------   
 #                   HIT/STAY LOGIC
@@ -47,7 +49,6 @@ def player_move():
     
     if player_turn > 0:
         
-        # print(bot_status)
         status = input("\nWould you like to Hit or Stay: ")
         
         while status.lower() != "hit" and status.lower() != "stay":
@@ -57,29 +58,25 @@ def player_move():
             pass
         else:
             
-            
             if bot_status == "stay":
                 
                 print("\nBoth the bot and you selected stay, so the game is over.")
                 
-                
                 if bot_score > player_score:
-                    
                     print("\n The bot had a higher score, so it wins")
-                    return 
                     
                 elif bot_score < player_score:
-                    
                     print("\n You had a higher score than the bot, so you win")
-                    return
                     
                 else:
                     print("\nBoth you and the bot had the same score. It is a tie.")
-                    return
+
+                game_over = True 
+                return
                 
-            
             else:
                 bot_move()
+                return  
         
         
     
@@ -91,7 +88,7 @@ def player_move():
     value1 = values[rank1]
 
 #----------------------------------------------------------   
-#        TIME DELAY EFFECT (idk why i did this lol)
+#        TIME DELAY EFFECT
 #---------------------------------------------------------- 
 
     print("\nRolling...")
@@ -113,38 +110,26 @@ def player_move():
 #---------------------------------------------------------- 
 
 
-
     if value1 == 11:
         
         value_decide = input(f"\nYou got an ace, your next card will be {rank2}. Would you like it to be an 11 or 1: ")
         
         while int(value_decide) != 11 and int(value_decide) != 1:
-
             value_decide = input("\nPlease type 1 or 11: ")
             
         if int(value_decide) == 11:
-            
             value1 = 11
-            
         else:
             value1 = 1
             
-          
-          
-          
-          
-
     if value2 == 11:
         value_decide2 = input(f"\nYou got an ace, your first card is {rank1}. Would you like it to be an 11 or 1: ")
         
         while int(value_decide2) != 11 and int(value_decide2) != 1:
-            
             value_decide2 = input("\nPlease type 1 or 11: ")
             
         if int(value_decide2) == 11:
-            
             value2 = 11
-            
         else:
             value2 = 1
     
@@ -160,34 +145,26 @@ def player_move():
     if player_score > 21:
         
         print(f"\nYou got {rank1} and {rank2}! Your score is {player_score} which exceeds 21.\n You lost.")
+        game_over = True 
         return
     
     elif player_score == 21:
         
         print(f"\nYou got {rank1} and {rank2}! Your score is {player_score},\n therefore you won!")
+        game_over = True  
         return
     
     else:
 
-        #----------------------------------------------------------   
-        #                       LOOPING
-        #---------------------------------------------------------- 
-        
         print(f"\nYou got {rank1} and {rank2}! Your score is {player_score}.")
         
         if player_turn == 0:
-            
             player_turn = player_turn + 1
-            
             player_move()
         else:
             bot_move()
         
         
-
-
-
-
 
 
 #----------------------------------------------------------  
@@ -197,19 +174,15 @@ def player_move():
 #---------------------------------------------------------- 
 
 
-
-
-
-
-
-
-
-
 def bot_move():
     
     global bot_score
     global bot_turn
     global bot_status
+    global game_over
+
+    if game_over: 
+        return
 
 #----------------------------------------------------------   
 #                  HIT/STAY LOGIC
@@ -220,10 +193,10 @@ def bot_move():
             print("\nThe Bot decided to Stay!")
             bot_status = "stay"
             player_move()
+            return  
         else:
             bot_status = "hit"
             pass
-        
         
         
     
@@ -241,21 +214,6 @@ def bot_move():
     print("\nBOT Rolling...")
     time.sleep(1.2)
     
-
-
-#----------------------------------------------------------   
-#                DECIDING ACE VALUES
-#---------------------------------------------------------- 
-
-    if value1 == 11:
-        
-        if bot_score+11 > 21:
-            value1 = 1
-            
-        else:
-            value1 = 11
-            
-            
             
 #----------------------------------------------------------   
 #               SECOND RANDOM CARD CHOICE
@@ -276,13 +234,17 @@ def bot_move():
     
 #----------------------------------------------------------   
 #                DECIDING ACE VALUES
-#---------------------------------------------------------- 
+#----------------------------------------------------------
 
-    if value2 == 11:
-        
-        if bot_score+11 > 21:
-            value2 = 1
+    if value1 == 11:
+        if bot_score+value2+11 > 21:
+            value1 = 1
+        else:
+            value1 = 11
             
+    if value2 == 11:
+        if bot_score+value1+11 > 21:
+            value2 = 1
         else:
             value2 = 11
     
@@ -296,30 +258,24 @@ def bot_move():
     if bot_score > 21:
         
         print(f"\nThe bot got {rank1} and {rank2}! It's score is {bot_score} which exceeds 21.\n You won!")
+        game_over = True 
         return
     
     elif bot_score == 21:
         
         print(f"\nThe bot got {rank1} and {rank2}! The bot's score is {bot_score},\n therefore you lost.")
+        game_over = True  
         return
     
     else:
 
-        #----------------------------------------------------------   
-        #                   LOOPING LOGIC
-        #---------------------------------------------------------- 
-        
         print(f"\nThe bot got {rank1} and {rank2}! It's score is {bot_score}.")
         
         if bot_turn == 0:
-            
             bot_turn = bot_turn + 1
-            
             bot_move()
         else:
-            print("hnnshwhd")
             player_move()
-        
         
 
 
