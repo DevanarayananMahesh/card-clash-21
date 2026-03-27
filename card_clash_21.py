@@ -31,6 +31,25 @@ game_over = False  # <--THis is proof of how annoying errors are
 #---------------------------------------------------------- 
 
 
+"""
+This function includes all player moves. It starts by defining 
+all variables. It checks the player turn. If the player's turn
+(how many turns the player played) is over 0, it asks whether
+to hit or stay. A While loop deals with incorrect answers. 
+If hit, the code passes, else it checks the bot_status 
+(bot's prev move). If it was stay, it checks the scores, and
+calls a tie or win. Else, it calls the bot function. 
+The function randomly chooses 2 ranks with it's values.
+It asks the user for an input of 1 or 11 if one value is an Ace.
+A While loop deals with incorrect answers. It then adds the 2
+values with the player_score. If this score is more than 21,
+You lose, if it is 21, you win, else it prints your rank, values
+, and checks your turn. If your turn is 0, it adds 1, and recalls
+the function. Otherwise, it calls bot function and ends this function
+with a return.
+
+"""
+
 def player_move():
     
     global bot_status
@@ -173,6 +192,25 @@ def player_move():
 # 
 #---------------------------------------------------------- 
 
+
+"""
+This function codes for the Bot's move. It first defines 
+all variables. Then it checks if the game is finished via
+a variable. This is set as False if not finished or True if
+finished (to avoid repeating problems). If not finished,
+the functions shceks if the bot turn is over 0 and under 21.
+If so, it checks the bot score. If it is over or equal to
+17, the bot's movement is set to stay, and player move is
+called. Else, the bot status is hit, and passes the if 
+statement. It rolls 2 ranks and values like player move.
+If any were an ace, the function does quick math. If
+bot_score + 11 + value2 (or value1) > 21, ace value is set to 1.
+Else, it is set to 11. The total bot score is updated.
+If the bot score is over 21, it stops the function and looses.
+If the bot score is 21, it stops the function and prints a win.
+If the bot score is under 21, it updates it's turn +1, and calls
+player move.
+"""
 
 def bot_move():
     
